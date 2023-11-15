@@ -20,9 +20,10 @@ https://nextjs.org/docs/app/building-your-application/routing/parallel-routes
 ### 解説
 
 `app/page.tsx`は`app/@dialog`をintercepting routesとして扱い、`app/layout.tsx`で`@dialog`の扱いを決定する。  
-`app/@dialog`以下には`(.)test`と`(.)test2`が含まれており、それぞれ`app/test`と`app/test2`にマッチする。  
+`app/@dialog`以下には`(.)test`と`(.)test2`が含まれており、それぞれ`/test`と`/test2`にマッチする。  
 結果、`Link`での遷移にてそれらのルートがインターセプトされる。
-しかし、`app/test2/1`にマッチするルートは`app/@dialog`存在しないため、`Link`での遷移は失敗する。
+しかし、`/test2/1`にマッチするルートは`app/@dialog`存在しないため、`Link`での遷移は失敗する。  
+`/test2`以下はインターセプトされているので、`app/test2/1`ディレクトリへのフォールバックも行われない模様。
 
 ## `/test2`
 
@@ -31,7 +32,7 @@ https://nextjs.org/docs/app/building-your-application/routing/parallel-routes
     - with direct: show `test-2-1-page`
 
 `app/test2/page.tsx`は`app/test2/@dialog`をintercepting routesとして扱い、`app/test2/layout.tsx`で`@dialog`の扱いを決定する。  
-`app/test2/@dialog`以下には`(.)1`が含まれており、`app/test2/1`にマッチする。  
+`app/test2/@dialog`以下には`(.)1`が含まれており、`/test2/1`にマッチする。  
 結果、`Link`での遷移にてルートがインターセプトされる。  
 
 ## メタ読み
@@ -51,3 +52,9 @@ https://nextjs.org/docs/app/building-your-application/routing/intercepting-route
 
 `default.tsx`は`layout.tsx`内で指定されたインターセプターが存在しなかった場合のデフォルト値を定義する。  
 要は適切な`page.tsx`が存在しなかった場合のフォールバック。  
+
+
+`(.)`みたいな書き方でどこがインターセプトされるのか考えるのが結構難しい。  
+https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes#convention  
+とりあえず`(.)`と`(..)`縛りで良い気がする。
+`(..)(..)`とか`(...)`で何が起きるのか予測が困難…。  

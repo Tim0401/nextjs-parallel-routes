@@ -8,5 +8,7 @@ export default function Home() {
   <Link href="/test2">Link to test2</Link>
   <br />
   <Link href="/test2/1">Link to test2/1 (not working)</Link>
+  <br />
+  <Link href="/test3">Link to test3 (not found)</Link>
   </>
 }
